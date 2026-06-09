@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Invinsource Dashboard</title>
+    <link rel="stylesheet" href="/static/job.css" />
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/job.js"></script>
+
+</head>
+
+<body data-page-id="{{ page_uid }}">
+
+    {% include "/partials/header.html" %}
+
+    <div class="wrapper">
+
+        <div class="main">
+
+            <!-- LEFT JOB LIST -->
+            <aside class="job-list">
+                <h3>Job Listings</h3>
+
+                <div class="job-item-container">
+                    {% for job in jobs %}
+                    <a href="{{ url_for('jobs.render_job_page', enc_id=job.enc_id) }}"
+                        class="job-item {% if job.id == job_detail.id %}active{% endif %}">
+
+                        <h4>{{ job.title }}</h4>
+
+                        <p class="price">
+                            {{ job.salary_currency }} {{ job.salary_min }}
+                            -
+                            {{ job.salary_currency }} {{ job.salary_max }}
+                            / {{ job.salary_period }}
+                        </p>
+
+                        <div class="skills">
+                            {% for skill in job.requirements_list %}
+                            <span>{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="meta">
+                            <span>📅 {{ job.created_at.strftime('%d %b %Y') }}</span>
+                            <span>🔄 {{ job.updated_at.strftime('%d %b %Y') }}</span>
+                        </div>
+
+
+
+                    </a>
+                    {% endfor %}
+                </div>
+            </aside>
+
+            <!-- RIGHT JOB DETAILS -->
+            <section class="job-details">
+
+                <div class="job-header">
+                    <h2>{{ job_detail.title }}</h2>
+                    <span class="location">{{ job_detail.location }}</span>
+                </div>
+
+                <p class="description">
+                    {{ job_detail.description }}
+                </p>
+
+                <div class="info-grid">
+                    <div>
+                        <strong>Employment</strong>
+                        <span>{{ job_detail.employment_type }}</span>
+                    </div>
+                    <div>
+                        <strong>Experience</strong>
+                        <span>{{ job_detail.experience_level }}</span>
+                    </div>
+                    <div>
+                        <strong>Location</strong>
+                        <span>{{ job_detail.location }}</span>
+                    </div>
+                </div>
+
+                <h4>Responsibilities</h4>
+                <ul class="responsibilities">
+                    {% for resp in job_detail.responsibilities_list %}
+                    <li>{{ resp }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Required Skills</h4>
+                <div class="skills">
+                    {% for skill in job_detail.requirements_list %}
+                    <span>{{ skill }}</span>
+                    {% endfor %}
+                </div>
+
+                <h4>Salary</h4>
+                <p class="price highlight">
+                    {{ job_detail.salary_currency }} {{ job_detail.salary_min }}
+                    -
+                    {{ job_detail.salary_currency }} {{ job_detail.salary_max }}
+                    / {{ job_detail.salary_period }}
+                </p>
+
+                {% if applied %}
+                <button disabled class="apply-btn">Already Applied</button>
+                {% else %}
+                <a href="{{ url_for('jobs.job_application', enc_id=job_detail.enc_id) }}">
+                    <button class="apply-btn">Apply Now</button>
+                </a>
+                {% endif %}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                <script>
+                    showSnackbar("{{ message }}", "{{ category }}");
+                </script>
+                {% endfor %}
+                {% endwith %}
+
+
+            </section>
+
+        </div>
+    </div>
+    <script>
+        document.querySelector("form").addEventListener("submit", function () {
+            const btn = document.getElementById("applyBtn");
+            btn.disabled = true;
+            btn.innerText = "Submitting...";
+        });
+    </script>
+
+
+    {% include "/partials/footer.html" %}
+
+</body>
+
+</html>

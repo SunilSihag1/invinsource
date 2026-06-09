@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f8fafc;
+}
+.certificate {
+    width: 1000px;
+    height: 700px;
+    margin: auto;
+    padding: 50px;
+    border: 12px solid #2563eb;
+    text-align: center;
+    background: white;
+}
+.name {
+    font-size: 36px;
+    font-weight: bold;
+}
+.course {
+    font-size: 22px;
+    margin-top: 10px;
+}
+.footer {
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+</style>
+</head>
+
+<body>
+<div class="certificate">
+    <h1>Certificate of Completion</h1>
+
+    <p>This certifies that</p>
+    <div class="name">{{ user.name }}</div>
+
+    <p>has successfully completed</p>
+    <div class="course">{{ course.title }}</div>
+
+    <p>Issued on {{ issued_on }}</p>
+
+    <div class="footer">
+        <div>Invinsource</div>
+        <div>ID: {{ certificate_id }}</div>
+    </div>
+</div>
+</body>
+</html>

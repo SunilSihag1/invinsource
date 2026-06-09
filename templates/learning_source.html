@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Invinsource LMS</title>
+    <link rel="stylesheet" href="/static/learning_source.css">
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/learning_source.js"></script>
+</head>
+
+<body>
+
+{% include "partials/header.html" %}
+
+<div class="lms-bg">
+    <div class="lms-container">
+
+        <!-- ================= Mandatory Course ================= -->
+        <div class="mandatory-section">
+            <span class="badge-mandatory-top">Mandatory Course</span>
+
+            {% for course in all_courses %}
+            {% if course.course_type == "mandatory" and course.is_active %}
+
+            <div class="mandatory-card {% if course.is_locked %}locked{% endif %}">
+
+                <!-- LEFT -->
+                <div class="mandatory-left">
+                    <h1>{{ course.title }}</h1>
+
+                    <div class="mandatory-meta">
+                        <span>{{ course.progress }}% completed</span>
+                        <span>Passing Percentage: {{ course.passing_percentage }}%</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ course.progress }}%"></div>
+                    </div>
+
+                    <div class="mandatory-pill">✓ Mandatory</div>
+                </div>
+
+                <!-- RIGHT -->
+                <div class="mandatory-right">
+                    <div class="right-top">
+                        <span class="created">
+                            Created on {{ course.created_at.strftime('%d %b %Y') }}
+                        </span>
+                        <span class="status-label">Status</span>    
+                    </div>
+
+                    {% if course.is_locked %}
+                        <!-- 🔒 LOCKED -->
+                        <div class="status-pill not-started">🔒 Locked</div><br>
+                        <a href="/subscription/{{ encrypt_user_id(session.user_id) }}"
+                           class="btn-primary disabled">
+                            Upgrade to Elite
+                        </a>
+
+                    {% else %}
+                        <!-- ✅ UNLOCKED -->
+                        {% if course.progress == 100 %}
+                            <div class="status-pill">✓✓ Completed</div><br>
+                            <a href="/certificate/download/{{ course.id }}"
+                               class="btn-primary" style="margin-right: 20px;">
+                                Download Certificate
+                            </a>
+                            <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{ encrypt_skill_id(course.skill_id) }}/{{ course.enc_id }}"
+                               class="btn-primary">
+                                Course Completed
+                            </a>
+
+                        {% elif course.progress > 0 %}
+                            <div class="status-pill">✓ In Progress</div><br>
+                            <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{ encrypt_skill_id(course.skill_id) }}/{{ course.enc_id }}"
+                               class="btn-primary">
+                                Continue Learning
+                            </a>
+
+                        {% else %}
+                            <div class="status-pill not-started">Not Started</div><br>
+                            <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{ encrypt_skill_id(course.skill_id) }}/{{ course.enc_id }}"
+                               class="btn-primary">
+                                Start Learning
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- ================= Open Courses ================= -->
+        <div class="open-section">
+            <h2>Open Courses (Learn at your Own Pace)</h2>
+
+            <div class="open-grid">
+                {% for course in all_courses %}
+                {% if course.course_type == "open" and course.is_active %}
+
+                <div class="open-card">
+                    <span class="badge-open">Open Course</span>
+
+                    <h3>{{ course.title }}</h3>
+
+                    <div class="progress-bar small">
+                        <div class="progress-fill" style="width: {{ course.progress }}%"></div>
+                    </div>
+
+                    <div class="open-meta">
+                        <span>{{ course.progress }}% completed</span>
+                        <span>Passing {{ course.passing_percentage }}%</span>
+                    </div>
+
+                        {% if course.progress == 100 %}
+                        <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{ encrypt_skill_id(course.skill_id) }}/{{ course.enc_id }}"
+                       class="btn-secondary">
+                            Completed
+                        </a>
+                        <a href="/certificate/download/{{ course.id }}"
+                       class="btn-secondary" style="float: right; margin-top: 20px; justify-items: center">
+                            <p style="color: white;">Download Certificate</p>
+                        </a>
+                        {% elif course.progress > 0 %}
+                        <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{ encrypt_skill_id(course.skill_id) }}/{{ course.enc_id }}"
+                       class="btn-secondary">
+                            Continue Learning
+                        </a>
+                        {% else %}
+                        <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{ encrypt_skill_id(course.skill_id) }}/{{ course.enc_id }}"
+                       class="btn-secondary">
+                            Start Learning
+                        </a>
+                        {% endif %}
+                </div>
+
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "partials/footer.html" %}
+
+</body>
+</html>

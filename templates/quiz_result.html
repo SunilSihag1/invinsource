@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="/static/quiz.css">
+
+    <!-- GSAP -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/quiz_result.js" defer></script>
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="quiz-wrapper center animate-wrapper">
+
+        <h2 class="animate-score">Your Score: {{ score }}%</h2>
+
+        {% if passed %}
+        <p class="pass animate-status">🎉 Congratulations! You passed the quiz.</p>
+
+        <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ course.slug }}/{{course.enc_skill_id}}/{{ course.enc_id }}"
+            class="btn-submit animate-cta pulse">
+            Continue Learning
+        </a>
+        {% else %}
+        <p class="fail animate-status">❌ You did not reach 80%. Try again.</p>
+
+        <a href="javascript:history.back()" class="btn-submit animate-cta shake">
+            Retry Quiz
+        </a>
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <script>
+            showSnackbar("{{ message }}", "{{ category }}");
+        </script>
+        {% endfor %}
+        {% endwith %}
+
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+</body>
+
+</html>

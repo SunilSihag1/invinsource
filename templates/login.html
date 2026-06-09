@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invinsource – Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/login.css" />
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/login.js"></script>
+
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="login-card">
+
+            <!-- LEFT SIDE -->
+            <div class="login-illustration">
+                <div class="illustration-placeholder">
+                    <!-- Replace with real SVG/image if needed -->
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="login-form">
+                <div class="brand">
+                    <span class="logo">Invinsource</span>
+                </div>
+
+                <h1>Welcome Back</h1>
+                <p class="subtitle">
+                    Login to continue your learning and career journey
+                </p>
+
+                <form method="POST" action="/login">
+                    <input type="email" name="email" placeholder="you@example.com" required>
+                    <input type="password" name="password" placeholder="••••••••" required>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+
+                <p class="signup">
+                    Don’t have an account?
+                    <a href="/signup">Sign Up</a>
+                </p>
+                <p class="signup">
+                    forgot password ? 
+                    <a href="/forgot-password">Reset Password</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Invinsource – Pricing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/subscription.css" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <!-- MAIN -->
+    <main class="pricing-wrapper">
+        <h1>Choose the Plan That Fits Your Growth</h1>
+        <p class="subtitle">
+            Unlock learning, prove your skills, earn from assignments, and get hired faster.
+        </p>
+
+        <!-- PRICING CARDS -->
+        <div class="cards">
+
+            <!-- STARTER -->
+            <div class="card starter">
+                <h3>Starter (Free)</h3>
+                <div class="price">₹0 <span>/ month</span></div>
+                <p class="desc">Get started with learning</p>
+
+                <ul>
+                    <li>Access to basic learning content</li>
+                    <li>Career guidance</li>
+                    <li>Watch selected YouTube learning videos</li>
+                    <li>Limited skill tests</li>
+                    <li>Community access (read-only)</li>
+                </ul>
+
+                <button class="btn outline">Get Started Free</button>
+            </div>
+
+            {% for subscription in subscriptions %}
+            {% if subscription.status == "active" %}
+            <!-- PRO -->
+            <div class="card pro">
+                <!-- <div class="badge">🔥 Most Popular</div> -->
+                <h3>{{subscription.name}}</h3>
+                <div class="price">₹{{subscription.price}} <span>/ month</span></div>
+                <p class="desc">Learn, prove, and earn</p>
+
+                <ul>
+                    <li>Full learning library access</li>
+                    <li>Skill verification & certificates</li>
+                    <li>Apply for paid assignments</li>
+                    <li>Priority dashboard features</li>
+                    <li>Earnings tracking</li>
+                </ul>
+
+                {% if not sub_details %}
+                <!-- No active subscription -->
+                <button class="btn solid" onclick="buyPlan('{{ subscription.plan_code }}')">
+                    Upgrade to {{ subscription.name }}
+                </button>
+
+                {% else %}
+                {% if sub_details.plan_code == subscription.plan_code %}
+                <!-- Same plan -->
+                <button class="btn solid disabled" style="cursor: not-allowed">
+                    You already have {{ subscription.name }}
+                </button>
+
+                {% elif sub_details.plan_code == "02" and subscription.plan_code == "01" %}
+                <!-- Elite → Pro downgrade -->
+                <button class="btn solid disabled" style="cursor: not-allowed;">
+                    Downgrade Not Allowed
+                </button>
+
+                {% else %}
+                <!-- Pro → Elite -->
+                <button class="btn solid" onclick="buyPlan('{{ subscription.plan_code }}')">
+                    Upgrade to {{ subscription.name }}
+                </button>
+                {% endif %}
+                {% endif %}
+
+            </div>
+            {% else %}
+            <span>Currently there is no active subscription</span>
+            {% endif %}
+
+            {% endfor %}
+        </div>
+
+        <!-- TRUST -->
+        <div class="trust">
+            🔒 Cancel anytime • Secure payments • No hidden charges
+        </div>
+    </main>
+
+    {% include 'partials/footer.html' %}
+
+    <script>
+        const encUserId = "{{ enc_userid }}"
+    </script>
+    <script src="/static/js/subscription.js"></script>
+
+</body>
+
+</html>

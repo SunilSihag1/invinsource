@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/static/user_profile.css">
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="page">
+
+        <div class="grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="left">
+
+                <!-- PROFILE CARD -->
+                <div class="card profile-card">
+                    <div class="profile-top">
+                        <div id="profileLottie" style="width:90px;height:90px;"></div>
+
+                        <div>
+                            <h3>{{user_info.name}}</h3>
+                            <p class="username">@{{user_info.username}}</p>
+                            <span class="verified">✔ Skill-Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="domain">Active Domain: Web Development</div>
+
+                    <h4>Personal Information</h4>
+                    <p>Email: {{user_info.email}}</p>
+                    <p>Phone: {{user_info.phone_number}}</p>
+                    <p class="muted">Member Since: {{ user_info.created_at.strftime('%b %Y') }}</p>
+
+                    <button class="btn-primary" id="editProfileBtn">Edit Profile</button>
+
+                    <p class="bio">
+                        Experienced Full-Stack developer with a passion for building
+                        clean, scalable web applications.
+                    </p>
+                </div>
+                
+
+                <!-- EDIT PROFILE MODAL -->
+                <div class="modal-overlay" id="editProfileModal">
+
+                    <div class="modal">
+
+                        <div class="modal-header">
+                            <h3>Edit Profile</h3>
+                            <span class="close-btn" id="closeProfileModal">&times;</span>
+                        </div>
+
+                        <form method="POST" action="/profile/update/{{ enc_uid }}">
+
+                            <!-- USERNAME -->
+                            <div class="form-group half">
+                                <label>Username</label>
+                                <input type="text" name="username" value="{{ user_info.username }}"
+                                    placeholder="your_username" required>
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="form-group half">
+                                <label>Email</label>
+                                <input type="email" name="email" value="{{ user_info.email }}"
+                                    placeholder="you@example.com" required>
+                            </div>
+
+                            <!-- PHONE -->
+                            <div class="form-group half">
+                                <label>Phone Number</label>
+                                <input type="tel" name="phone_number" value="{{ user_info.phone_number }}"
+                                    placeholder="+91 98765 43210" required>
+                            </div>
+
+                            <!-- BIO -->
+                            <div class="form-group">
+                                <label>Bio</label>
+                                <textarea name="bio" rows="4"
+                                    placeholder="Write something about yourself...">{{ user_profile.bio if user_profile }}</textarea>
+                            </div>
+
+                            <!-- EDUCATION -->
+                            <div class="form-group">
+                                <label>Education</label>
+                                <input type="text" name="education" value="{{ user_profile.education if user_profile }}"
+                                    placeholder="B.Tech / MCA / Self-Taught">
+                            </div>
+
+                            <!-- EXPERIENCE LEVEL -->
+                            <div class="form-group">
+                                <label>Experience Level</label>
+                                <select name="experience_level">
+                                    <option value="beginner" {% if user_profile and
+                                        user_profile.experience_level=='beginner' %}selected{% endif %}>
+                                        Beginner
+                                    </option>
+                                    <option value="intermediate" {% if user_profile and
+                                        user_profile.experience_level=='intermediate' %}selected{% endif %}>
+                                        Intermediate
+                                    </option>
+                                    <option value="advanced" {% if user_profile and
+                                        user_profile.experience_level=='advanced' %}selected{% endif %}>
+                                        Advanced
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Select Your Skills</label>
+
+                                <select id="skillSelect">
+                                    <option value="">Select a skill</option>
+                                    {% for skill in all_skills %}
+                                    <option value="{{ skill.id }}">{{ skill.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <div class="chips" id="selectedSkills">
+                                    {% for skill in all_skills %}
+                                    {% if skill.id in user_skill_ids %}
+                                    <span class="chip success" data-id="{{ skill.id }}">
+                                        {{ skill.name }}
+                                        <input type="hidden" name="skills" value="{{ skill.id }}">
+                                        <span class="remove">×</span>
+                                    </span>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+
+                            <!-- GITHUB -->
+                            <div class="form-group">
+                                <label>GitHub Profile</label>
+                                <input type="url" name="github_url"
+                                    value="{{ user_profile.github_url if user_profile }}"
+                                    placeholder="https://github.com/username">
+                            </div>
+
+                            <!-- LINKEDIN -->
+                            <div class="form-group">
+                                <label>LinkedIn Profile</label>
+                                <input type="url" name="linkedin_url"
+                                    value="{{ user_profile.linkedin_url if user_profile }}"
+                                    placeholder="https://linkedin.com/in/username">
+                            </div>
+
+                            <!-- ACTIONS -->
+                            <div class="modal-actions">
+                                <button type="button" class="btn-secondary" id="cancelProfileEdit">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn-primary">
+                                    Save Changes
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESUME -->
+                <div class="card">
+                    <h4>Resume</h4>
+
+                    {% if user_profile and user_profile.resume_url %}
+                    {% set resume_name = user_profile.resume_url.split('/')[-1] %}
+
+                    <p class="file">
+                        Current File:
+                        <a href="{{ user_profile.resume_url }}" target="_blank">
+                            {{ resume_name }}
+                        </a>
+                    </p>
+
+                    <p class="muted">
+                        Last Updated:
+                        {{ user_profile.updated_at.strftime('%d %b %Y') }}
+                    </p>
+                    {% else %}
+                    <p class="file muted">No resume uploaded yet</p>
+                    <p class="muted">Upload your resume to complete profile</p>
+                    {% endif %}
+
+                    <button class="btn-primary" id="openResumeModal">
+                        Upload / Replace Resume
+                    </button>
+                </div>
+
+
+                <!-- RESUME UPLOAD MODAL -->
+                <div class="modal-overlay" id="resumeModal">
+
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h3>Upload Resume</h3>
+                            <span class="close-btn" id="closeResumeModal">&times;</span>
+                        </div>
+
+                        <form method="POST" action="/profile/upload-resume/{{ enc_uid }}" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label>Resume (PDF only)</label>
+                                <input type="file" name="resume" accept=".pdf" required>
+                            </div>
+
+                            <div class="modal-actions">
+                                <button type="button" class="btn-secondary" id="cancelResumeUpload">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn-primary">
+                                    Upload Resume
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RIGHT COLUMN -->
+            <div class="right">
+
+                <!-- SKILLS -->
+                <div class="card">
+                    <h4>Skills</h4>
+
+                    <div id="skillsLottie" style="width:70px;height:70px;"></div>
+                    <div class="chips">
+                        {% for skill in skill_names %}
+                        <span class="chip success">{{skill.name}} ✓</span>
+                        {% endfor %}
+                    </div>
+
+                    <p class="section-label">Unverified Skills</p>
+
+                    <div class="chips">
+                        {% if unverified_skills %}
+                        {% for skill in unverified_skills %}
+                        <span class="chip">{{ skill.name }}</span>
+                        {% endfor %}
+                        {% else %}
+                        <p class="muted">No pending skills 🎉</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="progress">
+                        <span>Skill Readiness Level</span>
+                        <div class="bar">
+                            <div class="fill" style="width: {{ skill_progress.percentage }}%;"></div>
+                        </div>
+                        <small>
+                            {{ skill_progress.percentage }}% complete
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <!-- EARNINGS -->
+                <div class="card earnings">
+                    <div>
+                        <h4>Earnings History</h4>
+                        <p class="amount">₹12,500</p>
+                    </div>
+
+                    <div class="quick-links">
+                        <a>Dashboard Home</a>
+                        <a>My Assignments</a>
+                    </div>
+                </div>
+
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <script>
+                showSnackbar("{{ message }}", "{{ category }}");
+            </script>
+            {% endfor %}
+            {% endwith %}
+        </div>
+
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+    <script>
+        // ---------- EDIT PROFILE MODAL ----------
+        const editBtn = document.getElementById("editProfileBtn");
+        const editModal = document.getElementById("editProfileModal");
+        const closeEditBtn = document.getElementById("closeProfileModal");
+        const cancelEditBtn = document.getElementById("cancelProfileEdit");
+
+        editBtn.addEventListener("click", () => {
+            editModal.classList.add("active");
+        });
+
+        closeEditBtn.addEventListener("click", () => {
+            editModal.classList.remove("active");
+        });
+
+        cancelEditBtn.addEventListener("click", () => {
+            editModal.classList.remove("active");
+        });
+
+
+        // ---------- RESUME MODAL ----------
+        const openResumeBtn = document.getElementById("openResumeModal");
+        const resumeModal = document.getElementById("resumeModal");
+        const closeResumeBtn = document.getElementById("closeResumeModal");
+        const cancelResumeBtn = document.getElementById("cancelResumeUpload");
+
+        openResumeBtn.addEventListener("click", () => {
+            resumeModal.classList.add("active");
+        });
+
+        closeResumeBtn.addEventListener("click", () => {
+            resumeModal.classList.remove("active");
+        });
+
+        cancelResumeBtn.addEventListener("click", () => {
+            resumeModal.classList.remove("active");
+        });
+
+
+        // ---------- CLOSE ON OVERLAY CLICK ----------
+        window.addEventListener("click", (e) => {
+            if (e.target === editModal) editModal.classList.remove("active");
+            if (e.target === resumeModal) resumeModal.classList.remove("active");
+        });
+
+
+        // ---------- LOTTIE ----------
+        lottie.loadAnimation({
+            container: document.getElementById("profileLottie"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "https://assets6.lottiefiles.com/packages/lf20_jcikwtux.json"
+        });
+
+        lottie.loadAnimation({
+            container: document.getElementById("skillsLottie"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "https://assets2.lottiefiles.com/packages/lf20_kkflmtur.json"
+        });
+
+        const skillSelect = document.getElementById("skillSelect");
+        const selectedSkills = document.getElementById("selectedSkills");
+
+        skillSelect.addEventListener("change", () => {
+            const value = skillSelect.value;
+            const text = skillSelect.options[skillSelect.selectedIndex].text;
+
+            if (!value || selectedSkills.querySelector(`[data-id="${value}"]`)) return;
+
+            const chip = document.createElement("span");
+            chip.className = "chip success";
+            chip.dataset.id = value;
+            chip.innerHTML = `
+        ${text}
+        <input type="hidden" name="skills" value="${value}">
+        <span class="remove">×</span>
+    `;
+
+            selectedSkills.appendChild(chip);
+        });
+
+        selectedSkills.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remove")) {
+                e.target.parentElement.remove();
+            }
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

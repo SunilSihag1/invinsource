@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invinsource – Learn · Prove · Earn</title>
+    <link rel="stylesheet" href="/static/home.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="/static/animations/home.js"></script>
+
+</head>
+
+{% include '/partials/header.html' %}
+
+<body>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h1>Learn → Prove → Earn →<br />Get Hired</h1>
+                <p>
+                    Build real skills, prove them with real-world tasks,
+                    earn through paid assignments, and get hired based on what you can do.
+                </p>
+                <div class="hero-actions">
+                    {% if session.get('user_id') %}
+                    <a class="btn-primary" href="/learning-source/{{ encrypt_user_id(session.user_id) }}">Start
+                        Learning</a>
+                    {% else %}
+                    <a class="btn-primary" href="/signup">Get Started</a>
+                    {% endif %}
+                    <a class="btn-secondary" href="/job">Explore Jobs</a>
+                    <a class="btn-secondary" href="/assignments">Start Assignments</a>
+
+                </div>
+            </div>
+
+            <div class="hero-illustration">
+                <div class="mock-card"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+
+            <div class="steps">
+                <div class="step-card">
+                    <span class="step-number">1</span>
+                    <h3>Choose Domain</h3>
+                    <p>Select a skill path like Web Development or UI/UX.</p>
+                </div>
+
+                <div class="step-card">
+                    <span class="step-number">2</span>
+                    <h3>Learn</h3>
+                    <p>Access curated learning content and resources.</p>
+                </div>
+
+                <div class="step-card">
+                    <span class="step-number">3</span>
+                    <h3>Pass Skill Test</h3>
+                    <p>Prove your knowledge with real-world tasks.</p>
+                </div>
+
+                <div class="step-card">
+                    <span class="step-number">4</span>
+                    <h3>Earn / Apply Job</h3>
+                    <p>Earn from assignments or apply for jobs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section muted">
+        <div class="container">
+            <h2 class="section-title">Why invinsource?</h2>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Verified Skills</h3>
+                    <p>Validate your expertise with real-world projects.</p>
+                </div>
+
+                <div class="feature-card active">
+                    <h3>Paid Assignments</h3>
+                    <p>Get incentivized by completing meaningful tasks.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>UI/UX Design</h3>
+                    <p>Get compensated for completing creative tasks.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Beginner Friendly</h3>
+                    <p>Start your career journey with guided paths.</p>
+                </div>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <script>
+            showSnackbar("{{ message }}", "{{ category }}");
+        </script>
+        {% endfor %}
+        {% endwith %}
+
+    </section>
+
+    {% include '/partials/footer.html' %}
+
+</body>
+
+</html>

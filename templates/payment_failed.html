@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Failed | Invinsource</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/payment_failed.css">
+
+    <!-- GSAP -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/payment_success.js"></script>
+</head>
+
+<body>
+
+{% include "partials/header.html" %}
+
+<div class="failed-bg">
+    <div class="failed-card">
+
+        <!-- LEFT -->
+        <div class="failed-left">
+            <h1 class="title">
+                <span class="icon">✕</span>
+                Payment Failed
+            </h1>
+
+            <p class="subtitle">
+                Your payment could not be processed.
+            </p>
+
+            <p class="desc">
+                Don’t worry — no money has been deducted.
+                Please try again or choose a different payment method.
+            </p>
+
+            <div class="error-box">
+                <h3>Transaction Details</h3>
+
+                <div class="row">
+                    <span>Plan</span>
+                    <strong>Pro – Monthly</strong>
+                </div>
+
+                <div class="row">
+                    <span>Amount</span>
+                    <strong>₹499</strong>
+                </div>
+
+                <div class="row">
+                    <span>Error Code</span>
+                    <strong>PAYMENT_FAILED</strong>
+                </div>
+
+                <div class="row">
+                    <span>Reason</span>
+                    <strong>Bank declined the transaction</strong>
+                </div>
+
+                <div class="row">
+                    <span>Status</span>
+                    <span class="status-pill failed">Failed</span>
+                </div>
+
+                <div class="actions">
+                    <a href="/subscribe" class="btn primary">Retry Payment</a>
+                    <a href="/pricing" class="btn outline">Change Plan</a>
+                    <a href="/support" class="link">Contact Support →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="failed-right">
+            <div class="cross-wrapper">
+                <div class="cross-circle">
+                    ✕
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOT INFO -->
+    <div class="footer-info">
+        <span>🔐 No money deducted</span>
+        <span>📞 24×7 Support</span>
+        <span>🔄 Retry anytime</span>
+    </div>
+</div>
+
+{% include "partials/footer.html" %}
+
+</body>
+</html>

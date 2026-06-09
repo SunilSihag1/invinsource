@@ -1,0 +1,230 @@
+:root {
+    --primary: #2563eb;
+    --success: #22c55e;
+    --bg: #eef3f7;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+}
+
+/* BASE */
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.lms-bg {
+    padding: 40px 0 80px;
+}
+
+.lms-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 24px;
+}
+
+/* ===== Mandatory ===== */
+.badge-mandatory-top {
+    display: inline-block;
+    background: #e7efff;
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.mandatory-card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 36px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.mandatory-left h1 {
+    margin: 0 0 14px;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.mandatory-meta {
+    display: flex;
+    gap: 40px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    margin: 18px 0;
+}
+
+.progress-bar.small {
+    margin: 14px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--success);
+    border-radius: 999px;
+}
+
+.mandatory-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.check-icon {
+    font-size: 14px;
+}
+
+/* Right */
+.mandatory-right {
+    text-align: right;
+}
+
+.right-top {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.status-label {
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.status-pill {
+    display: inline-block;
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin: 16px 0 60px;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ===== Open Courses ===== */
+.open-section {
+    margin-top: 60px;
+}
+
+.open-section h2 {
+    margin-bottom: 28px;
+}
+
+.open-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+}
+
+.open-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+
+.badge-open {
+    background: #f1f5f9;
+    color: var(--muted);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.open-card h3 {
+    margin: 14px 0 6px;
+    line-height: 1.25;
+}
+
+.open-card p {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.open-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.btn-secondary {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ===== CARD HOVER EFFECT ===== */
+.mandatory-card,
+.open-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mandatory-card:hover,
+.open-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== BUTTON INTERACTIONS ===== */
+.btn-primary,
+.btn-secondary {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(37, 99, 235, 0.35);
+}
+
+/* ===== BADGE POP ===== */
+.badge-mandatory-top,
+.badge-open {
+    animation: badgePop 0.5s ease-out;
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

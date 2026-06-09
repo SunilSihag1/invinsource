@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Courses</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/user_courses.css">
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="courses-page">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <div id="coursesLottie" style="width:80px;height:80px;"></div>
+            <h2>My Courses</h2>
+        </div>
+
+        <!-- FILTERS -->
+        <form method="GET" class="filters">
+            <input type="text" name="search" placeholder="Search courses..."
+                value="{{ request.args.get('search','') }}">
+
+            <select name="status">
+                <option value="">All Courses</option>
+                <option value="completed" {% if request.args.status=='completed' %}selected{% endif %}>
+                    Completed
+                </option>
+                <option value="in_progress" {% if request.args.status=='in_progress' %}selected{% endif %}>
+                    In Progress
+                </option>
+            </select>
+
+            <button type="submit">Apply</button>
+        </form>
+
+        <!-- COURSES LIST -->
+        {% if courses %}
+        {% for course in courses %}
+        {% for all_course in all_courses %}
+
+        <a href="/lms/start/{{ encrypt_user_id(session.user_id) }}/{{ all_course.slug }}/{{ all_course.skill_id }}/{{ all_course.enc_id }}"
+            class="course-link">
+
+            <div class="course-card clickable">
+                <div class="course-title">{{ course.title }}</div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ course.progress }}%;"></div>
+                </div>
+
+                <small>{{ course.progress }}% completed</small><br>
+
+                {% if course.progress == 100 %}
+                <span class="badge completed">View Course →</span>
+                {% else %}
+                <span class="badge in_progress">Continue Learning →</span>
+                {% endif %}
+            </div>
+
+        </a>
+        {% endfor %}
+        {% endfor %}
+
+        <!-- PAGINATION -->
+        <div class="pagination">
+            {% if page > 1 %}
+            <a href="?page={{ page-1 }}&{{ request.query_string.decode() }}">Prev</a>
+            {% endif %}
+
+            <span>Page {{ page }} of {{ total_pages }}</span>
+
+            {% if page < total_pages %} <a href="?page={{ page+1 }}&{{ request.query_string.decode() }}">Next</a>
+                {% endif %}
+        </div>
+
+        {% else %}
+        <!-- EMPTY STATE -->
+        <div class="empty-state">
+            <div id="emptyCoursesLottie" style="width:240px;height:240px;margin:auto;"></div>
+            <p>No courses found</p>
+        </div>
+        {% endif %}
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+    <script>
+        lottie.loadAnimation({
+            container: document.getElementById("coursesLottie"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "https://assets6.lottiefiles.com/packages/lf20_tno6cg2w.json"
+        });
+
+        {% if not courses %}
+        lottie.loadAnimation({
+            container: document.getElementById("emptyCoursesLottie"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "https://assets2.lottiefiles.com/packages/lf20_ysrn2iwp.json"
+        });
+        {% endif %}
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,274 @@
+:root {
+    --primary: #3b82f6;
+    --bg: #eef4f8;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+}
+
+/* WRAPPER */
+.apply-wrapper {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 24px;
+}
+
+/* STATUS */
+.status-pill {
+    width: fit-content;
+    margin: 0 auto 20px;
+    background: #f1f5f9;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* MAIN CARD */
+.apply-card {
+    display: flex;
+    gap: 24px;
+    background: linear-gradient(180deg, #ffffff, #f5f9ff);
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+/* LEFT */
+.job-info {
+    width: 35%;
+    background: #f8fbff;
+    border-radius: 22px;
+    padding: 24px;
+}
+
+.job-info h3 {
+    margin: 0;
+    color: var(--muted);
+}
+
+.job-info h2 {
+    margin: 6px 0 14px;
+}
+
+.meta {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.highlight {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.skills {
+    display: flex;
+    gap: 8px;
+    margin: 14px 0;
+}
+
+.skills span {
+    background: #e0edff;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.job-info hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 16px 0;
+}
+
+.verified {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* RIGHT FORM */
+.apply-form {
+    flex: 1;
+    background: var(--card);
+    border-radius: 22px;
+    padding: 28px;
+}
+
+.apply-form h2 {
+    margin: 0;
+}
+
+.subtext {
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+/* FORM */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+input,
+textarea {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary);
+}
+
+/* FILE */
+.file-input input {
+    padding: 10px;
+    background: #f8fafc;
+}
+
+/* BUTTONS */
+.btn-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #5aa2ff, #3b82f6);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 12px 26px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    opacity: 0.9;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.flash-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.flash {
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    color: #fff;
+    animation: slideIn 0.4s ease, fadeOut 0.4s ease 3s forwards;
+}
+
+.flash-success {
+    background: #22c55e;
+}
+
+.flash-error {
+    background: #ef4444;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* INPUT FOCUS EFFECT */
+.apply-form input,
+.apply-form textarea {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.apply-form input:focus,
+.apply-form textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+/* FILE INPUT HOVER */
+.file-input {
+    transition: transform 0.2s ease;
+}
+
+.file-input:hover {
+    transform: scale(1.02);
+}
+
+/* BUTTON HOVER */
+.btn-primary,
+.btn-secondary {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-1px);
+}
+
+/* FLASH MESSAGE */
+.flash {
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

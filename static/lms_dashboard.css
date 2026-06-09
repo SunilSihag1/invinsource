@@ -1,0 +1,322 @@
+:root {
+    --primary: #3b82f6;
+    --bg: #eef4f8;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --success: #16a34a;
+    --warning: #f59e0b;
+}
+
+body {
+    background: var(--bg);
+    font-family: Inter, system-ui, sans-serif;
+}
+
+.lms-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* SKILL CARD */
+.skill-card {
+    background: var(--card);
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* BADGES */
+.badge {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.badge.verified {
+    background: #dcfce7;
+    color: var(--success);
+}
+
+.badge.pending {
+    background: #fef3c7;
+    color: var(--warning);
+}
+
+/* PROGRESS */
+.progress-section {
+    margin-top: 24px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.progress-bar {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #5aa2ff, #3b82f6);
+}
+
+/* COURSE CARD */
+.course-card {
+    margin-top: 28px;
+    background: var(--card);
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.05);
+}
+
+/* CHAPTERS */
+.chapters-section {
+    margin-top: 32px;
+}
+
+.chapter-card {
+    background: var(--card);
+    padding: 18px 22px;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.chapter-card.locked {
+    opacity: 0.6;
+}
+
+.status {
+    font-size: 13px;
+}
+
+/* FINAL QUIZ */
+.final-quiz-card {
+    margin-top: 40px;
+    padding: 26px;
+    background: linear-gradient(135deg, #f8fafc, #eef4ff);
+    border-radius: 22px;
+    text-align: center;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #5aa2ff, #3b82f6);
+    color: white;
+}
+
+.btn.disabled {
+    background: #cbd5e1;
+    color: #475569;
+    cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+    --primary: #2563eb;
+    --bg: #eef3f7;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --success: #22c55e;
+}
+
+/* Layout */
+body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.lms-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ================= BADGES ================= */
+.badge-primary {
+    background: #e0ecff;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.badge-muted {
+    background: #f1f5f9;
+    color: var(--muted);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+/* ================= MANDATORY CARD ================= */
+.mandatory-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    margin-bottom: 48px;
+}
+
+.mandatory-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.mandatory-content h2 {
+    margin: 0 0 12px;
+    font-size: 26px;
+}
+
+.meta {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 16px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--success);
+    border-radius: 999px;
+}
+
+.pill {
+    background: #e0ecff;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.right {
+    text-align: right;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    margin: 12px 0;
+    font-size: 13px;
+}
+
+.status.in-progress {
+    background: #eef2ff;
+    color: var(--primary);
+}
+
+.btn-primary {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ================= OPEN COURSES ================= */
+.open-section h3 {
+    margin-bottom: 24px;
+}
+
+.open-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.course-card {
+    background: var(--card);
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.07);
+}
+
+.course-card h4 {
+    margin: 12px 0 6px;
+}
+
+.desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.meta.small {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+}
+
+.btn-secondary {
+    display: block;
+    text-align: center;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+}

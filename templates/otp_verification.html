@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Invinsource – Verify Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/otp_varification.css" />
+</head>
+
+<body>
+
+<div class="page">
+    <div class="card">
+
+        <div class="brand">Invinsource</div>
+
+        <h1>Verify Your Email</h1>
+        <p class="subtitle">Enter the 6-digit OTP sent to your email.</p>
+
+        <!-- ✅ FORM START -->
+        <form method="POST">
+
+            <div class="otp-container">
+                <input type="text" maxlength="1" class="otp" />
+                <input type="text" maxlength="1" class="otp" />
+                <input type="text" maxlength="1" class="otp" />
+                <input type="text" maxlength="1" class="otp" />
+                <input type="text" maxlength="1" class="otp" />
+                <input type="text" maxlength="1" class="otp" />
+            </div>
+
+            <!-- Hidden combined OTP -->
+            <input type="hidden" name="otp" id="otpValue">
+
+            <p class="timer">
+                OTP expires in <span id="time">02:00</span>
+            </p>
+
+            <button type="submit" class="btn-primary">
+                Verify OTP
+            </button>
+
+        </form>
+        <!-- ✅ FORM END -->
+
+        <a href="{{ url_for('render_forgot_password') }}" class="resend">
+            Resend OTP
+        </a>
+
+    </div>
+</div>
+
+<script>
+    const inputs = document.querySelectorAll(".otp");
+    const otpHidden = document.getElementById("otpValue");
+    const timeEl = document.getElementById("time");
+
+    let timeLeft = 120;
+
+    /* OTP INPUT */
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", () => {
+            input.value = input.value.replace(/[^0-9]/g, "");
+            if (input.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+            updateOTP();
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !input.value && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
+
+    function updateOTP() {
+        otpHidden.value = Array.from(inputs).map(i => i.value).join("");
+    }
+
+    /* TIMER */
+    function startTimer() {
+        const timer = setInterval(() => {
+            timeLeft--;
+            const min = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+            const sec = String(timeLeft % 60).padStart(2, "0");
+            timeEl.textContent = `${min}:${sec}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                timeEl.textContent = "Expired";
+            }
+        }, 1000);
+    }
+
+    inputs[0].focus();
+    startTimer();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+:root {
+    --primary: #3b82f6;
+    --bg: #eef4f8;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --success: #16a34a;
+    --error: #dc2626;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* PAGE WRAPPER */
+.apply-wrapper {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* CARD */
+.apply-card {
+    background: var(--card);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    padding: 36px;
+}
+
+/* FORM HEADER */
+.apply-form h2 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.subtext {
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-size: 15px;
+}
+
+/* FORM */
+.apply-form form {
+    display: grid;
+    gap: 14px;
+}
+
+/* LABEL */
+.apply-form label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* INPUTS */
+.apply-form input,
+.apply-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.apply-form textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.apply-form input:focus,
+.apply-form textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* FLASH MESSAGES */
+.flash-container {
+    margin-top: 10px;
+}
+
+.flash {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.flash-success {
+    background: #dcfce7;
+    color: var(--success);
+}
+
+.flash-error {
+    background: #fee2e2;
+    color: var(--error);
+}
+
+/* BUTTON ROW */
+.btn-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+/* PRIMARY BUTTON */
+.btn-primary {
+    background: linear-gradient(135deg, #5aa2ff, #3b82f6);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* SECONDARY BUTTON */
+.btn-secondary {
+    padding: 14px 26px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .apply-card {
+        padding: 24px;
+    }
+
+    .btn-row {
+        flex-direction: column;
+    }
+}
+
+/* INPUT FOCUS EFFECT */
+.apply-form input,
+.apply-form textarea {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.apply-form input:focus,
+.apply-form textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+/* BUTTON HOVER */
+.btn-primary,
+.btn-secondary {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-1px);
+}
+
+/* FLASH MESSAGE */
+.flash {
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

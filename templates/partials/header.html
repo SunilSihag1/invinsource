@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/static/header.css">
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="/static//animations/header.js"></script>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="container nav">
+        <a href="/">
+            <div class="logo">Xnity</div>
+        </a>
+        <nav>
+            {% if session.user_id %}
+            <a href="/subscription/{{ encrypt_user_id(session.user_id) }}">
+                BUY SUBSCRIPTION
+            </a>
+            {% else %}
+            <a href="/login">LOGIN TO BUY</a>
+            {% endif %}
+
+            {% if session.get('user_id') %}
+            <a href="/learning-source/{{ encrypt_user_id(session.user_id) }}">Start Learning</a>
+            <a class="btn-outline"
+                href="{{ url_for('dashboard.dashboard', enc_uid=encrypt_user_id(session['user_id'])) }}">
+                Dashboard
+            </a>
+            <a class="btn-outline logout" href="/logout">logout</a>
+            {% else %}
+            <a href="/signup" class="btn-outline">Sign Up</a>
+            <a class="btn-outline" href="/login">Login</a>
+            {% endif %}
+        </nav>
+        <div id="snackbar" class="snackbar">
+            <span id="snackbar-message"></span>
+        </div>
+
+    </div>
+</header>
+
+<script>
+    let snackbarTimeout;
+
+    function showSnackbar(message, type = "info", duration = 3000) {
+        const snackbar = document.getElementById("snackbar");
+        const text = document.getElementById("snackbar-message");
+
+        clearTimeout(snackbarTimeout);
+
+        snackbar.className = `snackbar ${type}`;
+        text.innerText = message;
+
+        snackbar.classList.remove("hide");
+        snackbar.classList.add("show");
+
+        snackbarTimeout = setTimeout(() => {
+            snackbar.classList.remove("show");
+            snackbar.classList.add("hide");
+        }, duration);
+    }
+
+
+</script>

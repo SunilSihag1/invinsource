@@ -1,0 +1,17 @@
+/* FOOTER */
+.footer {
+    background: #020617;
+    color: #cbd5f5;
+    padding: 30px 0;
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer a {
+    margin-left: 20px;
+    color: #cbd5f5;
+}

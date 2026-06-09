@@ -1,0 +1,248 @@
+:root {
+    --primary: #3b82f6;
+    --bg: #eef4f8;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* LAYOUT */
+.wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 24px;
+}
+
+.main {
+    display: flex;
+    gap: 24px;
+}
+
+/* LEFT PANEL */
+.job-list {
+    width: 36%;
+}
+
+.job-item-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 700px;
+    overflow-y: scroll;
+}
+
+.job-item {
+    display: block;
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.job-item:hover {
+    transform: translateY(-2px);
+}
+
+.job-item.active {
+    background: linear-gradient(135deg, #5aa2ff, #3b82f6);
+    color: white;
+}
+
+.job-item h4 {
+    margin: 0 0 6px;
+}
+
+.price {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* SKILLS */
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skills span {
+    background: #eef4ff;
+    color: var(--primary);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.job-item.active .skills span {
+    background: rgba(255,255,255,0.25);
+    color: white;
+}
+
+/* META */
+.meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.job-item.active .meta {
+    color: #e0edff;
+}
+
+/* PILLS */
+.pill-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.pill {
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+}
+
+.pill.gray {
+    background: #f1f5f9;
+    color: var(--muted);
+}
+
+.pill.applied {
+    background: white;
+    color: var(--primary);
+}
+
+/* RIGHT PANEL */
+.job-details {
+    flex: 1;
+    background: var(--card);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 20px;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.location {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.description {
+    margin: 16px 0;
+    color: var(--muted);
+}
+
+/* INFO GRID */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.info-grid div {
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+/* RESPONSIBILITIES */
+.responsibilities {
+    padding-left: 18px;
+    margin-bottom: 16px;
+}
+
+.responsibilities li {
+    margin-bottom: 6px;
+}
+
+/* HIGHLIGHT PRICE */
+.price.highlight {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+/* APPLY BUTTON */
+.apply-btn {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #5aa2ff, #3b82f6);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.apply-btn:hover {
+    opacity: 0.9;
+}
+
+/* JOB ITEM */
+.job-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* ACTIVE JOB */
+.job-item.active {
+    animation: activePulse 0.35s ease;
+}
+
+@keyframes activePulse {
+    from { transform: scale(0.98); }
+    to { transform: scale(1); }
+}
+
+/* SKILLS */
+.skills span {
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.skills span:hover {
+    transform: scale(1.08);
+}
+
+.apply-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.apply-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(59,130,246,0.35);
+}
+
+/* Disabled */
+.apply-btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}

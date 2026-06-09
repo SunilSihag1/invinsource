@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Invinsource Assignments</title>
+    <link rel="stylesheet" href="/static/assignment.css" />
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/assignment.js"></script>
+</head>
+
+<body data-page-id="{{ page_uid }}">
+
+    {% include "/partials/header.html" %}
+
+    <div class="wrapper">
+        <div class="main">
+
+            <!-- LEFT ASSIGNMENT LIST -->
+            <aside class="job-list">
+                <h3>Available Assignments</h3>
+
+                <div class="job-item-container">
+                    {% for assignment in assignments %}
+                    <a href="{{ url_for('assignments.render_assignment_page', enc_id=assignment.enc_id) }}"
+                        class="job-item {% if assignment.id == assignment_detail.id %}active{% endif %}">
+
+                        <h4>{{ assignment.title }}</h4>
+
+                        <p class="price">
+                            ₹ {{ assignment.payment_amount }}
+                        </p>
+
+                        <div class="skills">
+                            {% for skill in assignment.skills_list %}
+                            <span>{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="meta">
+                            <span>⏳ {{ assignment.duration_days }} Days</span>
+                            <span>📅 {{ assignment.created_at.strftime('%d %b %Y') }}</span>
+                        </div>
+
+                        {% if assignment.requires_skill_verification %}
+                        <div class="verify"><svg viewBox="0 0 24 24">
+                                <path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z" />
+                                <path d="M9 12l2 2 4-4" />
+                            </svg>Skill-Verified Required</div>
+                        {% endif %}
+
+                    </a>
+                    {% endfor %}
+                </div>
+            </aside>
+
+            <!-- RIGHT ASSIGNMENT DETAILS -->
+            <section class="job-details">
+
+                <div class="job-header">
+                    <h2>{{ assignment_detail.title }}</h2>
+                    <span class="location">{{ assignment_detail.difficulty }}</span>
+                </div>
+
+                <p class="description">
+                    {{ assignment_detail.full_description }}
+                </p>
+
+                <div class="info-grid">
+                    <div>
+                        <strong>Difficulty</strong>
+                        <span>{{ assignment_detail.difficulty }}</span>
+                    </div>
+                    <div>
+                        <strong>Duration</strong>
+                        <span>{{ assignment_detail.duration_days }} Days</span>
+                    </div>
+                    <div>
+                        <strong>Status</strong>
+                        <span>{{ assignment_detail.status }}</span>
+                    </div>
+                </div>
+
+                <h4>Deliverables</h4>
+                <ul class="responsibilities">
+                    {% for item in assignment_detail.deliverables_list %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Required Skills</h4>
+                <div class="skills">
+                    {% for skill in assignment_detail.skills_list %}
+                    <span>{{ skill }}</span>
+                    {% endfor %}
+                </div>
+
+                <h4>Payment</h4>
+                <p class="price highlight">
+                    ₹ {{ assignment_detail.payment_amount }}
+                </p>
+
+                {% if applied %}
+                <button disabled class="apply-btn">Already Applied</button>
+                {% else %}
+                <a href="{{ url_for('assignments.assignment_application', enc_id=assignment_detail.enc_id) }}">
+                    <button class="apply-btn">Apply for Assignment</button>
+                </a>
+                {% endif %}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                <script>
+                    showSnackbar("{{ message }}", "{{ category }}");
+                </script>
+                {% endfor %}
+                {% endwith %}
+
+            </section>
+
+        </div>
+    </div>
+
+
+    {% include "/partials/footer.html" %}
+
+</body>
+
+</html>

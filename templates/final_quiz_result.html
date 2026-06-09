@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Skill Verification Result</title>
+    <link rel="stylesheet" href="/static/quiz.css">
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="quiz-wrapper center">
+
+        <h2>Your Score: {{ score }}%</h2>
+
+        {% if passed %}
+        <p class="pass">✅ Skill Verified Successfully!</p>
+        <p>You can now apply for assignments and jobs.</p>
+        <a href="/learning-source/{{ encrypt_user_id(session.user_id) }}" class="btn-submit">Go to Dashboard</a>
+        {% else %}
+        <p class="fail">❌ You did not reach 80%</p>
+        <a href="javascript:history.back()" class="btn-submit">
+            Retry Final Quiz
+        </a>
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <script>
+            showSnackbar("{{ message }}", "{{ category }}");
+        </script>
+        {% endfor %}
+        {% endwith %}
+
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+</body>
+
+</html>

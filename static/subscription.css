@@ -1,0 +1,149 @@
+/* MAIN */
+.pricing-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 24px;
+    padding: 60px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 16px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #6b7280;
+    margin-bottom: 32px;
+}
+
+.toggle {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    margin-bottom: 48px;
+    font-size: 14px;
+    color: #374151;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: left;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.price span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.desc {
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+.card ul {
+    list-style: none;
+    margin-bottom: 28px;
+}
+
+.card ul li {
+    margin-bottom: 12px;
+    padding-left: 24px;
+    position: relative;
+}
+
+.card ul li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #22c55e;
+    font-weight: 700;
+}
+
+/* BUTTONS */
+.btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.outline {
+    background: white;
+    border: 2px solid #2563eb;
+    color: #2563eb;
+}
+
+.solid {
+    background: white;
+    color: #2563eb;
+}
+
+.dark {
+    background: #1e3a8a;
+    color: white;
+}
+
+/* PRO CARD */
+.pro {
+    background: linear-gradient(180deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+.pro .desc,
+.pro .price span {
+    color: #e5edff;
+}
+
+.pro ul li::before {
+    color: #bbf7d0;
+}
+
+.badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #22c55e;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* TRUST */
+.trust {
+    margin-top: 40px;
+    color: #6b7280;
+    font-size: 14px;
+}

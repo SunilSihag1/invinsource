@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ skill.name }} Learning</title>
+    <link rel="stylesheet" href="/static/learning.css">
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="learn-wrapper">
+
+        <h2>{{ course.title }}</h2>
+        <p class="subtitle">
+            Mandatory course for {{ skill.name }} skill verification
+        </p>
+
+        <div class="chapters">
+
+            {% for chapter in chapters %}
+            <div class="chapter-card {% if not chapter.unlocked %}locked{% endif %}">
+
+                <div>
+                    <h4>
+                        Chapter {{ chapter.chapter_order }}:
+                        {{ chapter.title }}
+                    </h4>
+                    <p class="status">
+                        {% if chapter.unlocked %}
+                        🔓 Unlocked
+                        {% else %}
+                        🔒 Locked
+                        {% endif %}
+                    </p>
+                </div>
+
+                {% if chapter.unlocked %}
+                <a href="#" class="btn">Start Chapter</a>
+                {% else %}
+                <button class="btn disabled" disabled>
+                    Complete previous chapter
+                </button>
+                {% endif %}
+
+                {% if final_unlocked %}
+                <a href="/quiz/final/{{ course.id }}" class="btn">
+                    Start Final Quiz
+                </a>
+                {% else %}
+                <button class="btn disabled" disabled>
+                    Final Quiz Locked
+                </button>
+                {% endif %}
+
+
+            </div>
+            {% endfor %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <script>
+                showSnackbar("{{ message }}", "{{ category }}");
+            </script>
+            {% endfor %}
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+</body>
+
+</html>

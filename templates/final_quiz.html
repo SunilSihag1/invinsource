@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Final Skill Quiz</title>
+    <link rel="stylesheet" href="/static/quiz.css">
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="quiz-wrapper">
+
+        <h2>Final Skill Assessment</h2>
+        <p class="subtitle">You must score at least 80% to get verified</p>
+
+        <form method="post"
+            action="/quiz/{{ encrypt_user_id(session.user_id) }}/{{ course_slug }}/{{ enc_course_id }}/final/submit/{{ quiz.enc_id }}">
+
+            {% for q in questions %}
+            <div class="question-card">
+                <p class="question">
+                    {{ loop.index }}. {{ q.question }}
+                </p>
+
+                <label><input type="radio" name="{{ q.id }}" value="A" required> {{ q.option_a }}</label>
+                <label><input type="radio" name="{{ q.id }}" value="B"> {{ q.option_b }}</label>
+                <label><input type="radio" name="{{ q.id }}" value="C"> {{ q.option_c }}</label>
+                <label><input type="radio" name="{{ q.id }}" value="D"> {{ q.option_d }}</label>
+            </div>
+            {% endfor %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <script>
+                showSnackbar("{{ message }}", "{{ category }}");
+            </script>
+            {% endfor %}
+            {% endwith %}
+
+            <button class="btn-submit">Submit Final Quiz</button>
+
+        </form>
+
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+</body>
+
+</html>

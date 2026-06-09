@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invinsource – Create Account</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/signup.css" />
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/signup.js"></script>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="signup-card">
+
+            <!-- LEFT -->
+            <div class="illustration">
+                <div class="illustration-placeholder"></div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="form-wrapper">
+
+                <div class="brand">
+                    <span class="logo">Invinsource</span>
+                </div>
+
+                <h1>Create Your Free Account</h1>
+                <p class="subtitle">
+                    Start learning, proving your skills, and earning.
+                </p>
+
+                <form method="POST" action="/signup">
+                    <div class="row">
+                        <input type="text" name="name" placeholder="Full Name" required />
+                        <input type="text" name="username" placeholder="Username" required />
+                    </div>
+
+                    <div class="row">
+                        <input type="email" name="email" placeholder="Email Address" required />
+                        <input type="text" name="phone_number" placeholder="Phone Number" required/>
+                    </div>
+
+                    <div class="row">
+                        <input type="password" name="password" placeholder="Password" required />
+                        <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+                    </div>
+
+                    <div class="domain">
+                        <p class="label">Domain interest selection</p>
+                        <div class="domain-options">
+                            <label class="pill">
+                                <input type="checkbox" name="web_development" checked />
+                                Web Development
+                            </label>
+                            <label class="pill">
+                                <input type="checkbox" name="ui_ux" />
+                                UI/UX
+                            </label>
+                            <label class="pill">
+                                <input type="checkbox" name="digital_marketing" />
+                                Digital Marketing
+                            </label>
+                        </div>
+                    </div>
+
+                    <label class="terms">
+                        <input type="checkbox" required />
+                        <p>I agree to <a href="#">Terms</a> & <a href="#">Privacy Policy</a></p>
+                    </label>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <button type="submit" class="btn-primary">
+                        Create Account
+                    </button>
+                </form>
+
+                <p class="login-link">
+                    Already have an account? <a href="/login">Login</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

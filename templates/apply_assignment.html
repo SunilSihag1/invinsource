@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apply for Assignment</title>
+    <link rel="stylesheet" href="/static/apply_assignment.css">
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations//apply_assignment.js"></script>
+</head>
+
+<body>
+
+    {% include 'partials/header.html' %}
+
+    <div class="apply-wrapper">
+
+        <div class="apply-card">
+
+            <!-- APPLICATION FORM -->
+            <div class="apply-form">
+                <h2>Apply for {{ assignment.title }}</h2>
+                <p class="subtext">Submit your application for this assignment</p>
+
+                <form method="post">
+
+                    <label>Full Name *</label>
+                    <input type="text" name="name" placeholder="Your full name" value="{{ user_info.name }}" required>
+
+                    <label>Email *</label>
+                    <input type="email" name="email" placeholder="your.email@example.com" value="{{ user_info.email }}" required>
+
+                    <label>Phone Number *</label>
+                    <input type="text" name="phone_number" placeholder="+91 9876543210" value="{{ user_info.phone_number }}" required>
+
+                    <label>Portfolio / Work Link</label>
+                    <input type="text" name="portfolio" placeholder="https://portfolio.com">
+
+                    <label>GitHub</label>
+                    <input type="text" name="github" placeholder="https://github.com/username" value="{{ user_profile.github_url if user_profile }}">
+
+                    <label>LinkedIn</label>
+                    <input type="text" name="linkedin" placeholder="https://linkedin.com/username" value="{{ user_profile.linkedin_url if user_profile }}">
+
+                    <label>Why are you suitable for this assignment?</label>
+                    <textarea name="cover_letter"
+                        placeholder="Explain briefly how you will approach this assignment..."></textarea>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                    <script>
+                        showSnackbar("{{ message }}", "{{ category }}");
+                    </script>
+                    {% endfor %}
+                    {% endwith %}
+                    <div class="btn-row">
+                        <button type="submit" class="btn-primary">
+                            Apply for Assignment
+                        </button>
+                        <a href="/assignments" class="btn-secondary">
+                            Back to Assignments
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+</body>
+
+</html>

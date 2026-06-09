@@ -1,0 +1,193 @@
+/* NAVBAR */
+
+:root {
+    --primary: #3b82f6;
+    --text-dark: #0f172a;
+    --border: #e5e7eb;
+    --text-muted: #64748b;
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    background: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: min(1200px, 90%);
+    margin: auto;
+}
+
+.navbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary);
+}
+
+nav a {
+    margin-left: 20px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.btn-outline {
+    border: 1px solid var(--primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: var(--primary);
+}
+
+.logout {
+    border-color: red;
+    color: red;
+}
+
+/* Navbar base animation support */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Shadow on scroll */
+.navbar.scrolled {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: #fff;
+}
+
+/* Nav link hover underline */
+.navbar nav a {
+    position: relative;
+    transition: color 0.25s ease;
+}
+
+.navbar nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.25s ease;
+}
+
+.navbar nav a:hover::after {
+    width: 100%;
+}
+
+/* Button micro interaction */
+.btn-outline {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-outline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.snackbar {
+    position: fixed;
+    left: 50%;
+    bottom: -120px;
+    transform: translateX(-50%) scale(0.95);
+    min-width: 280px;
+    max-width: 420px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #fff;
+    background: #333;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    z-index: 9999;
+}
+
+/* Show animation */
+.snackbar.show {
+    animation: snackbar-in 0.5s ease forwards;
+}
+
+/* Hide animation */
+.snackbar.hide {
+    animation: snackbar-out 0.4s ease forwards;
+}
+
+/* Types */
+.snackbar.success {
+    background: #16a34a;
+}
+
+.snackbar.error {
+    background: #dc2626;
+}
+
+.snackbar.info {
+    background: #2563eb;
+}
+
+.snackbar.warning {
+    background: #f59e0b;
+}
+
+/* KEYFRAMES */
+@keyframes snackbar-in {
+    0% {
+        bottom: -120px;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.95);
+    }
+
+    70% {
+        bottom: 40px;
+        opacity: 1;
+        transform: translateX(-50%) scale(1.03);
+    }
+
+    100% {
+        bottom: 30px;
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes snackbar-out {
+    0% {
+        bottom: 30px;
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+
+    100% {
+        bottom: -120px;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.95);
+    }
+}

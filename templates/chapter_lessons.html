@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter Lessons</title>
+    <link rel="stylesheet" href="/static/learning.css">
+
+    <!-- GSAP -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+    <!-- Animations -->
+    <script src="/static/animations/global.js"></script>
+    <script src="/static/animations/chapter_lessons.js"></script>
+
+    <!-- YouTube Player API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+
+<body>
+
+{% include 'partials/header.html' %}
+
+<div class="learn-wrapper animate-section">
+    <h2 class="animate-title">Chapter Lessons</h2>
+
+    <div class="lessons">
+
+        {% for lesson in lessons %}
+        <div class="lesson-card animate-card {% if lesson.watched %}done{% endif %}"
+             data-video-id="{{ lesson.youtube_url }}"
+             data-lesson-id="{{ lesson.id }}">
+
+            <!-- INFO -->
+            <div class="lesson-info">
+                <h4>{{ lesson.lesson_order }}. {{ lesson.title }}</h4>
+                <p>{{ lesson.duration_minutes }} min</p>
+            </div>
+
+            <!-- ACTION -->
+            {% if lesson.watched %}
+                <span class="check">✔ Completed</span>
+            {% else %}
+                <button class="btn small mark-btn" disabled>
+                    Watch video to unlock
+                </button>
+            {% endif %}
+
+            <!-- VIDEO -->
+            <div class="video-wrapper">
+                <div class="yt-player"></div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% if chapter_completed %} <div class="chapter-complete animate-complete"> 🎉 Chapter completed! <br><br> <a href="/quiz/{{ encrypt_user_id(session.user_id) }}/{{ course_slug }}/{{ enc_course_id }}/chapter/quiz/{{ enc_chapter_id }}" class="btn primary pulse"> Start Chapter Quiz </a> </div> {% endif %} {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %} <script> showSnackbar("{{ message }}", "{{ category }}"); </script> {% endfor %} {% endwith %} </div>
+
+</div>
+
+{% include 'partials/footer.html' %}
+
+<script>
+/* ===============================
+   YOUTUBE API LMS LOGIC
+=============================== */
+
+let players = {};   
+
+let ytApiReady = false;
+
+function onYouTubeIframeAPIReady() {
+    ytApiReady = true;
+    initLessonPlayers();
+}
+
+
+function initLessonPlayers() {
+
+    if (!ytApiReady) return;
+
+    document.querySelectorAll(".lesson-card").forEach(card => {
+
+        const lessonId = card.dataset.lessonId;
+
+        // 🚫 already initialized
+        if (players[lessonId]) return;
+
+        const videoId = card.dataset.videoId;
+        const playerDiv = card.querySelector(".yt-player");
+        const button = card.querySelector(".mark-btn");
+
+        if (!videoId || !playerDiv || !button) return;
+
+        const player = new YT.Player(playerDiv, {
+            videoId,
+            playerVars: {
+                controls: 1,
+                modestbranding: 1,
+                rel: 0
+            },
+            events: {
+                onReady: () => enableAntiSkip(player),
+                onStateChange: e => handleStateChange(e, lessonId, button)
+            }
+        });
+
+        players[lessonId] = {
+            player,
+            completed: false
+        };
+
+        monitorProgress(lessonId, button);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.YT && YT.Player) {
+        ytApiReady = true;
+        initLessonPlayers();
+    }
+});
+
+
+
+/* ===============================
+   95% WATCH RULE
+=============================== */
+function monitorProgress(lessonId, button) {
+
+    const interval = setInterval(() => {
+        const data = players[lessonId];
+        if (!data || data.completed) return;
+
+        const player = data.player;
+        const duration = player.getDuration();
+        const current = player.getCurrentTime();
+
+        if (duration > 0 && (current / duration) >= 0.95) {
+            data.completed = true;
+            button.disabled = false;
+            button.innerText = "Mark as Watched";
+
+            showSnackbar("95% video watched ✔ You can continue", "success");
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+/* ===============================
+   PLAYER EVENTS
+=============================== */
+function handleStateChange(event, lessonId, button) {
+    if (event.data === YT.PlayerState.ENDED) {
+        players[lessonId].completed = true;
+        button.disabled = false;
+        button.innerText = "Mark as Watched";
+    }
+}
+
+/* ===============================
+   MARK COMPLETE
+=============================== */
+document.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("mark-btn")) return;
+
+    const card = e.target.closest(".lesson-card");
+    const lessonId = card.dataset.lessonId;
+
+    if (!players[lessonId].completed) {
+        showSnackbar("Watch at least 95% of the video", "error");
+        return;
+    }
+
+    e.target.disabled = true;
+    e.target.innerText = "Marking...";
+
+    fetch(`/lesson/${lessonId}/watched`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ video_completed: true })
+    }).then(() => location.reload(true));
+});
+
+function enableAntiSkip(player, lessonId, options = {}) {
+
+    const buffer = options.buffer || 3;   // seconds allowed jump
+    const intervalTime = options.interval || 1000;
+
+    let lastTime = 0;
+
+    const interval = setInterval(() => {
+
+        if (!player || typeof player.getCurrentTime !== "function") return;
+
+        const current = player.getCurrentTime();
+        const duration = player.getDuration();
+
+        if (!duration || duration <= 0) return;
+
+        // 🚫 Detect skip forward
+        if (current - lastTime > buffer) {
+            player.seekTo(lastTime, true);
+            showSnackbar("Skipping is not allowed ❌", "error");
+        } else {
+            lastTime = current;
+        }
+
+    }, intervalTime);
+
+    return {
+        stop: () => clearInterval(interval)
+    };
+}
+
+</script>
+
+</body>
+</html>

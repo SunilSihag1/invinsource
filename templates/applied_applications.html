@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Applied Applications</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/applied_applications.css">
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+
+</head>
+
+<body>
+
+{% include 'partials/header.html' %}
+
+<div class="applications-page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <div id="applicationsLottie" style="width:80px;height:80px;"></div>
+        {% if request.args.type=='job' %}
+            <h2>Applied Jobs</h2>
+        {% elif request.args.type=='assignment' %}
+            <h2>Applied Assignments</h2>
+        {% endif %}
+    </div>
+
+    <!-- FILTERS -->
+    <form method="GET" class="filters">
+        <input type="text" name="search" placeholder="Search title..."
+               value="{{ request.args.get('search','') }}">
+
+        <select name="type">
+            <option value="">All Types</option>
+            <option value="job" {% if request.args.type=='job' %}selected{% endif %}>Jobs</option>
+            <option value="assignment" {% if request.args.type=='assignment' %}selected{% endif %}>Assignments</option>
+        </select>
+
+        <select name="status">
+            <option value="">All Status</option>
+            <option value="applied">Applied</option>
+            <option value="shortlisted">Shortlisted</option>
+            <option value="rejected">Rejected</option>
+            <option value="hired">Hired</option>
+            <option value="completed">Completed</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+
+    <!-- TABLE -->
+    {% if applications %}
+    <table class="app-table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Applied On</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                <td>
+                    <span class="badge {{ app.type }}">
+                        {{ app.type|title }}
+                    </span>
+                </td>
+                <td>{{ app.title }}</td>
+                <td>
+                    <span class="badge status {{ app.status }}">
+                        {{ app.status|replace('_',' ')|title }}
+                    </span>
+                </td>
+                <td>{{ app.applied_at.strftime('%d %b %Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="?page={{ page-1 }}&{{ request.query_string.decode() }}">Prev</a>
+        {% endif %}
+
+        <span>Page {{ page }} of {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+            <a href="?page={{ page+1 }}&{{ request.query_string.decode() }}">Next</a>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <!-- EMPTY STATE -->
+    <div class="empty-state">
+        <div id="emptyLottie" style="width:240px;height:240px;margin:auto;"></div>
+        <p>No applications found</p>
+    </div>
+    {% endif %}
+
+</div>
+
+{% include 'partials/footer.html' %}
+
+<script>
+    lottie.loadAnimation({
+        container: document.getElementById("applicationsLottie"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "https://assets6.lottiefiles.com/packages/lf20_tno6cg2w.json"
+    });
+
+    {% if not applications %}
+    lottie.loadAnimation({
+        container: document.getElementById("emptyLottie"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "https://assets2.lottiefiles.com/packages/lf20_ysrn2iwp.json"
+    });
+    {% endif %}
+</script>
+
+</body>
+</html>

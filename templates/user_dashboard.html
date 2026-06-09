@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Invinsource Dashboard</title>
+    <link rel="stylesheet" href="/static/user_dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+    <script src="/static/animations//user_dashboard.js"></script>
+
+</head>
+
+<body>
+    {% include '/partials/header.html' %}
+
+    <div class="page">
+        </main>
+        <!-- MAIN CARD -->
+        <main class="card">
+
+            <section class="welcome">
+                <div class="welcome-left">
+                    <h2>Welcome back, <span>{{user.name}}</span> 👋</h2>
+                    <p>Here's a snapshot of your learning, skills, and career progress.</p>
+                </div>
+
+                <div class="welcome-lottie" id="welcomeAnim"></div>
+            </section>
+
+            <section class="stats">
+
+                <div class="stat-card gradient-green">
+                    <div class="lottie-icon" id="earningAnim"></div>
+                    <div>
+                        <p class="label">Total Earnings</p>
+                        <p class="money" data-count="12500">₹0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card gradient-blue">
+                    <div class="lottie-icon" id="jobAnim"></div>
+                    <div>
+                        <p class="label">Jobs Applied</p>
+                        <p class="count" data-count="{{job_stats.total}}">{{ job_stats.total }}</p>
+                    </div>
+                </div>
+
+                <div class="stat-card gradient-purple">
+                    <div class="lottie-icon" id="assignAnim"></div>
+                    <div>
+                        <p class="label">Ongoing Assignments</p>
+                        <p class="count" data-count="4">0</p>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- MIDDLE -->
+            <section class="middle">
+
+                <!-- QUICK ACTIONS -->
+                <div>
+                    <h3>Quick Actions</h3>
+                    <div class="actions">
+
+                        <!-- <div class="action-lottie"></div> -->
+
+
+                        <a href="/learning-source/{{ encrypt_user_id(session.user_id) }}">
+                            <div class="action">
+                                <img src="/static/images/continue_learning.svg" class="svg">
+                                <span>Continue learning</span>
+                            </div>
+                        </a>
+
+                        <a href="/job">
+                            <div class="action">
+                                <img src="/static/images/browse_jobs.svg" class="svg">
+                                <span>Browse Jobs</span>
+                            </div>
+                        </a>
+
+                        <a href="/assignments">
+                            <div class="action">
+                                <img src="/static/images/apply_assignments.svg" class="svg">
+                                <span>Apply Assignments</span>
+                            </div>
+                        </a>
+
+                        <a href="/profile/{{encrypt_user_id(session.user_id)}}">
+                            <div class="action">
+                                <img src="/static/images/my_profile.svg" class="svg">
+                                <span>My Profile</span>
+                            </div>
+                        </a>
+
+                        <a href="/profile/applied-application/{{ encrypt_user_id(session.user_id) }}/?type=job">
+                            <div class="action">
+                                <img src="/static/images/applied_jobs.svg" class="svg">
+                                <span>Applied Jobs</span>
+                            </div>
+                        </a>
+
+                        <a href="/profile/applied-application/{{ encrypt_user_id(session.user_id) }}/?type=assignment">
+                            <div class="action">
+                                <img src="/static/images/applied_assignments.svg" class="svg">
+                                <span>Applied Assignments</span>
+                            </div>
+                        </a>
+
+                        <a href="/profile/courses/{{ encrypt_user_id(session.user_id) }}/?status=completed">
+                            <div class="action">
+                                <img src="/static/images/course_completed.svg" class="svg">
+                                <span>Course Completed</span>
+                            </div>
+                        </a>
+
+                        <a href="/profile/courses/{{ encrypt_user_id(session.user_id) }}/?status=in_progress">
+                            <div class="action">
+                                <img src="/static/images/course_inprogress.svg" class="svg">
+                                <span>Course in-progress</span>
+                            </div>
+                        </a>
+
+                        <a href="#">
+                            <div class="action">
+                                <img src="/static/images/completed_assignments.svg" class="svg">
+                                <span>Completed Assignments</span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- SKILLS -->
+                <div>
+                    <h3>Your Skill & Career Readiness</h3>
+
+                    <div class="skill-card">
+                        <p class="label">Verified Skills: {{ skill_count }}</p>
+                        <div class="tags">
+                            {% for skill in skill_names %}
+                                <span>{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+
+
+
+    </div>
+    {% include '/partials/footer.html' %}
+
+</body>
+
+</html>

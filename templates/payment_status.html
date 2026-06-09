@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Successful | Invinsource</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/payment_status.css">
+
+    <!-- GSAP -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/payment_status.js" defer></script>
+</head>
+
+<body>
+
+    {% include "partials/header.html" %}
+
+    {% if status == "success" %}
+    <div class="success-bg">
+        <div class="success-card">
+
+            <!-- LEFT -->
+            <div class="success-left">
+                <h1 class="title">
+                    <span class="icon">✔</span>
+                    Payment Successful!
+                </h1>
+
+                <p class="subtitle">
+                    Your Pro subscription is now active.
+                </p>
+
+                <p class="desc">
+                    You now have full access to learning, paid assignments,
+                    and career opportunities.
+                </p>
+
+                <div class="subscription-box">
+                    <h3>Subscription</h3>
+
+                    <div class="row">
+                        <span>Plan</span>
+                        <strong>{{plan_name}}</strong>
+                    </div>
+
+                    <div class="row">
+                        <span>Amount Paid</span>
+                        <strong>{{amount}}</strong>
+                    </div>
+
+                    <div class="row">
+                        <span>Payment ID</span>
+                        <strong>{{payment_id}}</strong>
+                    </div>
+
+                    <div class="row">
+                        <span>Billing Date</span>
+                        <strong>{{billing_date}}</strong>
+                    </div>
+
+                    <div class="row">
+                        <span>Next Renewal</span>
+                        <strong>{{next_renewal}}</strong>
+                    </div>
+
+                    <div class="row">
+                        <span>Status</span>
+                        <span class="status-pill">Active</span>
+                    </div>
+
+                    <div class="actions">
+                        <a href="/dashboard" class="btn primary">Go to Dashboard</a>
+                        <a href="/learning-source/{{ encrypt_user_id(session.user_id) }}" class="btn outline">Start
+                            Learning Now</a>
+                        <a href="/invoice" class="link">View Invoice →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="success-right">
+                <div class="check-wrapper">
+                    <div class="check-circle">
+                        ✔
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOT INFO -->
+        <div class="footer-info">
+            <span>🔒 Secure payment</span>
+            <span>📧 Invoice emailed</span>
+            <span>❌ Cancel anytime</span>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="success-bg">
+        <div class="success-card">
+
+            <!-- LEFT -->
+            <div class="success-left">
+                <h1 class="title">
+                    <span class="icon" style="color: #ef4444;">✕</span>
+                    <span style="color: #7f1d1d;">Payment Failed!</span>
+                </h1>
+
+                <p class="subtitle" style="color: #7f1d1d;">
+                    our payment could not be processed.
+                </p>
+
+                <p class="desc" style="color: #7f1d1d;">
+                    Don’t worry — no money has been deducted.
+                    Please try again or choose a different payment method.
+                </p>
+
+                <div class="subscription-box">
+                    <h3>Subscription</h3>
+
+                    <div class="row" style="color: #7f1d1d;">
+                        <span>Plan</span>
+                        <strong>{{plan_name}}</strong>
+                    </div>
+
+                    <div class="row" style="color: #7f1d1d;">
+                        <span>Amount Paid</span>
+                        <strong>{{amount}}</strong>
+                    </div>
+
+                    <div class="row" style="color: #7f1d1d;">
+                        <span>Error Code</span>
+                        <strong>{{error_code}}</strong>
+                    </div>
+
+                    <div class="row" style="color: #7f1d1d;">
+                        <span>Status</span>
+                        <span class="status-pill" style="background: #fee2e2; color: #b91c1c;">Failed</span>
+                    </div>
+
+                    <div class="actions">
+                        <a onclick="buyPlan({{plan_code}})" class="btn primary"
+                            style="background-color: #dc2626; cursor: pointer;">Retry Payment</a>
+                        <a href="/subscription/{{ encrypt_user_id(session.user_id) }}" class="btn outline"
+                            style="color: #dc2626; border: 2px solid #dc2626">Change Plan</a>
+                        <a href="#" class="link" style="color: #dc2626;">View Contact Support →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="success-right">
+                <div class="check-wrapper">
+                    <div class="check-circle"
+                        style="background: linear-gradient(135deg, #ef4444, #f87171); box-shadow: 0 0 60px rgba(239,68,68,0.6);">
+                        ✕
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div style="color: #7f1d1d; width: 100%; margin-top: 20px">
+            <strong style="display: block; justify-self:center">{{error_reason}}</strong>
+        </div>
+
+        <!-- FOOT INFO -->
+        <div class="footer-info">
+            <span>🔒 Secure payment</span>
+            <span>🔐 No money deducted</span>
+            <span>📞 24×7 Support</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% include "partials/footer.html" %}
+
+    <script>
+        const encUserId = "{{ enc_userid }}";
+    </script>
+    <script src="/static/js/subscription.js"></script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LMS Dashboard | {{ skill.name }}</title>
+    <link rel="stylesheet" href="/static/lms_dashboard.css">
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="/static/animations/lms_dashboard.js"></script>
+    <script src="/static//animations/global.js"></script>
+</head>
+
+<body>
+
+{% include "partials/header.html" %}
+
+<div class="lms-wrapper">
+
+    <div class="skill-card">
+        <div>
+            <h2>{{ skill.name }}</h2>
+            <p class="muted">
+                Mandatory skill course for verification
+            </p>
+        </div>
+
+        {% if progress == 100 %}
+            <span class="badge verified">✔ Course Completer</span>
+        {% else %}
+            <span class="badge pending">⏳ In Progress</span>
+        {% endif %}
+    </div>
+
+    <div class="progress-section">
+        <div class="progress-header">
+            <span>Overall Progress</span>
+            <span>{{ progress }}%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ progress }}%"></div>
+        </div>
+    </div>
+
+    <div class="course-card">
+        <h3>{{ course.title }}</h3>
+        <p class="muted">{{ course.description }}</p>
+    </div>
+
+    <div class="chapters-section">
+        <h3>Course Chapters</h3>
+
+        {% for chapter in chapters %}
+        <div class="chapter-card {% if not chapter.unlocked %}locked{% endif %}">
+
+            <div>
+                <h4>
+                    Chapter {{ chapter.chapter_order }}:
+                    {{ chapter.title }}
+                </h4>
+
+                <p class="status">
+                    {% if chapter.unlocked %}
+                        🔓 Unlocked
+                    {% else %}
+                        🔒 Locked
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if chapter.unlocked %}
+                <a href="/learn/{{ encrypt_user_id(session.user_id) }}/{{ course.title|lower|replace(' ', '-') }}/{{ encrypt_lms_id(course.id) }}/chapter/{{ encrypt_lms_id(chapter.id) }}" class="btn">
+                    Continue
+                </a>
+            {% else %}
+                <button class="btn disabled" disabled>
+                    Locked
+                </button>
+            {% endif %}
+
+        </div>  
+        {% endfor %}
+    </div>
+
+    <div class="final-quiz-card">
+        <h3>Final Skill Assessment</h3>
+        <p class="muted">
+            Score at least <strong>80%</strong> to get verified
+        </p>
+
+        {% if final_unlocked %}
+            <a href="/quiz/{{ encrypt_user_id(session.user_id) }}/{{ course.title|lower|replace(' ', '-') }}/{{ encrypt_lms_id(course.id) }}/final" class="btn-primary final-quiz" class="btn primary">
+                Start Final Quiz
+            </a>
+        {% else %}
+            <button class="btn disabled" disabled>
+                Complete all chapter quizzes first
+            </button>
+        {% endif %}
+    </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <script>
+            showSnackbar("{{ message }}", "{{ category }}");
+        </script>
+        {% endfor %}
+        {% endwith %}
+
+</div>
+
+{% include "partials/footer.html" %}
+
+</body>
+</html>
